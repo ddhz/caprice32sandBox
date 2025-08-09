@@ -13,11 +13,16 @@
 #include "video.h"
 #include "glfuncs.h"  // For HAVE_GL
 
+enum {
+   OPT_INJECT_ONLY = 1,
+};
+
 const struct option long_options[] =
 {
    {"autocmd",  required_argument, nullptr, 'a'},
    {"cfg_file", required_argument, nullptr, 'c'},
    {"inject", required_argument, nullptr, 'i'},
+   {"inject-only", no_argument, nullptr, OPT_INJECT_ONLY},
    {"offset", required_argument, nullptr, 'o'},
    {"override", required_argument, nullptr, 'O'},
    {"sym_file", required_argument, nullptr, 's'},
@@ -39,6 +44,7 @@ void usage(std::ostream &os, char *progPath, int errcode)
    os << "   -c/--cfg_file=<file>:   use <file> as the emulator configuration file instead of the default.\n";
    os << "   -h/--help:              shows this help\n";
    os << "   -i/--inject=<file>:     inject a binary in memory after the CPC startup finishes\n";
+   os << "   --inject-only:          do not alter PC or stack when injecting a binary\n";
    os << "   -o/--offset=<address>:  offset at which to inject the binary provided with -i (default: 0x6000)\n";
    os << "   -O/--override:          override an option from the config. Can be repeated. (example: -O system.model=3)\n";
    os << "   -s/--sym_file=<file>:   use <file> as a source of symbols and entry points for disassembling in developers' tools.\n";
@@ -113,7 +119,7 @@ void parseArguments(int argc, char **argv, std::vector<std::string>& slot_list, 
 
       switch (c)
       {
-         case 'a':
+        case 'a':
             LOG_VERBOSE("Append to autocmd: " << optarg);
             args.autocmd += replaceCap32Keys(optarg);
             args.autocmd += "\n";
@@ -127,13 +133,17 @@ void parseArguments(int argc, char **argv, std::vector<std::string>& slot_list, 
             usage(std::cout, argv[0], 0);
             break;
 
-         case 'i':
-            args.binFile = optarg;
-            break;
+        case 'i':
+           args.binFile = optarg;
+           break;
 
-         case 'o':
-            args.binOffset = std::stol(optarg, nullptr, 0);
-            break;
+        case OPT_INJECT_ONLY:
+           args.injectOnly = true;
+           break;
+
+        case 'o':
+           args.binOffset = std::stol(optarg, nullptr, 0);
+           break;
 
          case 'O':
             {

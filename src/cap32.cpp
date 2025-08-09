@@ -1265,7 +1265,7 @@ void emulator_shutdown ()
 
 
 
-void bin_load (const std::string& filename, const size_t offset)
+void bin_load (const std::string& filename, const size_t offset, bool inject_only)
 {
   LOG_INFO("Load " << filename << " in memory at offset 0x" << std::hex << offset);
   FILE *file;
@@ -1292,15 +1292,17 @@ void bin_load (const std::string& filename, const size_t offset)
     LOG_ERROR("Empty bin file");
     return;
   }
-  // Jump at the beginning of the program
-  z80.PC.w.l = offset;
-  // Setup the stack the way it would be if we had launch it with run"
-  z80_write_mem(--z80.SP.w.l, 0x0);
-  z80_write_mem(--z80.SP.w.l, 0x98);
-  z80_write_mem(--z80.SP.w.l, 0x7f);
-  z80_write_mem(--z80.SP.w.l, 0x89);
-  z80_write_mem(--z80.SP.w.l, 0xb9);
-  z80_write_mem(--z80.SP.w.l, 0xa2);
+  if (!inject_only) {
+    // Jump at the beginning of the program
+    z80.PC.w.l = offset;
+    // Setup the stack the way it would be if we had launch it with run"
+    z80_write_mem(--z80.SP.w.l, 0x0);
+    z80_write_mem(--z80.SP.w.l, 0x98);
+    z80_write_mem(--z80.SP.w.l, 0x7f);
+    z80_write_mem(--z80.SP.w.l, 0x89);
+    z80_write_mem(--z80.SP.w.l, 0xb9);
+    z80_write_mem(--z80.SP.w.l, 0xa2);
+  }
 }
 
 
@@ -2767,7 +2769,7 @@ int cap32_main (int argc, char **argv)
       if (!bin_loaded &&
           dwFrameCountOverall > CPC.boot_time) {
           bin_loaded = true;
-          if (!args.binFile.empty()) bin_load(args.binFile, args.binOffset);
+          if (!args.binFile.empty()) bin_load(args.binFile, args.binOffset, args.injectOnly);
       }
 
       if(!virtualKeyboardEvents.empty()

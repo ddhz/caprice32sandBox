@@ -100,3 +100,14 @@ TEST(argParseTest, replaceCap32KeysRepeatedKeywords)
 
   ASSERT_EQ(expected, replaceCap32Keys(command));
 }
+
+TEST(ArgParseTest, parseArgsInjectOnly)
+{
+   const char *argv[] = {"./cap32", "--inject-only"};
+   CapriceArgs args;
+   std::vector<std::string> slot_list;
+
+   parseArguments(2, const_cast<char **>(argv), slot_list, args);
+
+   ASSERT_TRUE(args.injectOnly);
+}
