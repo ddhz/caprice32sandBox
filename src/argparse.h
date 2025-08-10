@@ -13,6 +13,7 @@ class CapriceArgs
       std::string cfgFilePath;
       std::string binFile;
       size_t binOffset;
+      bool injectOnly = false;
       std::map<std::string, std::map<std::string, std::string>> cfgOverrides;
       std::string symFilePath;
 };
