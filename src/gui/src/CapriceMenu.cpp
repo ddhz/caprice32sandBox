@@ -8,6 +8,7 @@
 #include "CapriceOptions.h"
 #include "CapriceLoadSave.h"
 #include "CapriceMemoryTool.h"
+#include "CapriceLoadBinary.h"
 #include "CapriceAbout.h"
 #include "cap32.h"
 
@@ -25,6 +26,7 @@ CapriceMenu::CapriceMenu(const CRect& WindowRect, CWindow* pParent, SDL_Surface*
     { MenuItem::OPTIONS, "Options" },
     { MenuItem::LOAD_SAVE, "Load / Save" },
     { MenuItem::MEMORY_TOOL, "Memory tool" },
+    { MenuItem::LOAD_BIN, "Load binary" },
     { MenuItem::RESET, "Reset (F5)" },
     { MenuItem::ABOUT, "About" },
     { MenuItem::RESUME, "Resume" },
@@ -101,6 +103,10 @@ bool CapriceMenu::HandleMessage(CMessage* pMessage)
               bHandled = true;
               selected = MenuItem::MEMORY_TOOL;
               break;
+            case SDLK_b:
+              bHandled = true;
+              selected = MenuItem::LOAD_BIN;
+              break;
             case SDLK_F5:
               bHandled = true;
               selected = MenuItem::RESET;
@@ -155,6 +161,11 @@ bool CapriceMenu::HandleMessage(CMessage* pMessage)
     case MenuItem::MEMORY_TOOL:
       {
         /*CapriceMemoryTool* pMemoryTool = */new CapriceMemoryTool(CRect(ViewToClient(CPoint(m_pScreenSurface->w /2 - 165, m_pScreenSurface->h /2 - 140)), 330, 270), this, nullptr);
+        break;
+      }
+    case MenuItem::LOAD_BIN:
+      {
+        /*CapriceLoadBinary* pLoadBinary = */new CapriceLoadBinary(CRect(ViewToClient(CPoint(m_pScreenSurface->w /2 - 165, m_pScreenSurface->h /2 - 75)), 330, 120), this, nullptr);
         break;
       }
     case MenuItem::RESET:
