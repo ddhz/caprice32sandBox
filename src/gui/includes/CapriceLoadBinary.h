@@ -7,6 +7,8 @@
 #include "wg_editbox.h"
 #include "wg_frame.h"
 #include "wg_label.h"
+#include "wg_listbox.h"
+#include <string>
 
 namespace wGui {
 class CapriceLoadBinary : public CFrame {
@@ -15,7 +17,13 @@ class CapriceLoadBinary : public CFrame {
   ~CapriceLoadBinary() override;
   bool HandleMessage(CMessage* pMessage) override;
 
+  std::string simplifyDirPath(std::string path);
+  void UpdateFilesList();
+
  private:
+  CLabel* m_pDirectoryLabel;
+  CEditBox* m_pDirectory;
+  CListBox* m_pFilesList;
   CLabel* m_pFileLabel;
   CEditBox* m_pFilePath;
   CLabel* m_pOffsetLabel;

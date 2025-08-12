@@ -165,7 +165,7 @@ bool CapriceMenu::HandleMessage(CMessage* pMessage)
       }
     case MenuItem::LOAD_BIN:
       {
-        /*CapriceLoadBinary* pLoadBinary = */new CapriceLoadBinary(CRect(ViewToClient(CPoint(m_pScreenSurface->w /2 - 165, m_pScreenSurface->h /2 - 75)), 330, 120), this, nullptr);
+        /*CapriceLoadBinary* pLoadBinary = */new CapriceLoadBinary(CRect(ViewToClient(CPoint(m_pScreenSurface->w /2 - 165, m_pScreenSurface->h /2 - 120)), 330, 240), this, nullptr);
         break;
       }
     case MenuItem::RESET:
