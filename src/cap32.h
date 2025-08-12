@@ -449,6 +449,8 @@ std::string getConfigurationFilename(bool forWrite = false);
 void loadConfiguration (t_CPC &CPC, const std::string& configFilename);
 bool saveConfiguration (t_CPC &CPC, const std::string& configFilename);
 
+void bin_load(const std::string& filename, const size_t offset, bool inject_only);
+
 void ShowCursor(bool show);
 
 int cap32_main(int argc, char **argv);

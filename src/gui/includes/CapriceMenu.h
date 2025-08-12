@@ -14,6 +14,7 @@ namespace wGui
     OPTIONS,
     LOAD_SAVE,
     MEMORY_TOOL,
+    LOAD_BIN,
     RESET,
     ABOUT,
     RESUME,
